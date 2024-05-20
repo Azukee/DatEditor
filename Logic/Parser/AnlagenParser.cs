@@ -380,12 +380,11 @@ namespace DatEditor.Logic.Parser
                     {
                         var size = getSize(data);
                         var rohstoffData = _datReader.ReadBytes(size);
-                        var v110 = 0;
-                        var v121 = 0;
-                        var v115 = 0;
-                        do
+                        var readingPosition = 0;
+
+                        for (var i = 0; i < 2; i++)
                         {
-                            if (v110 >= rohstoffData.Length)
+                            if (readingPosition >= rohstoffData.Length)
                                 break;
                             var v112 = 0;
                             while (true)
@@ -395,29 +394,23 @@ namespace DatEditor.Logic.Parser
 
                                 if (!string.IsNullOrEmpty(str))
                                 {
-                                    if (str == convertCString(rohstoffData.AsSpan(v110).ToArray()))
+                                    if (str == convertCString(rohstoffData.AsSpan(readingPosition).ToArray()))
                                         break;
                                 }
 
                                 if (++v112 >= 0x8F)
                                 {
-                                    v115 = v121;
                                     goto LABEL_164;
                                 }
                             }
 
-                            v115 = v121;
-                            prod3.m_RohstoffEntries[v121] = (byte)v112;
+                            prod3.m_RohstoffEntries[i] = (byte)v112;
                             if (v112 > 0)
-                                prod3.something130 = (byte)(v115 + 1);
+                                prod3.something130 = (byte)(i + 1);
                             LABEL_164:
-                            v110 += convertCString(rohstoffData.AsSpan(v110).ToArray()).Length + 1;
-                            v121 = v115 + 1;
-                        } while (v115 + 1 < 2);
-
+                            readingPosition += convertCString(rohstoffData.AsSpan(readingPosition).ToArray()).Length + 1;
+                        }
                         return;
-
-
                     }
                     else if (stringMatches(data, "VERSION2")) // doesnt seem to be used?
                     {
