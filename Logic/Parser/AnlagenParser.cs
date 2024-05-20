@@ -346,11 +346,10 @@ namespace DatEditor.Logic.Parser
                     {
                         var size = getSize(data);
                         var wareData = _datReader.ReadBytes(size);
-                        var v105 = 0;
-                        var v121 = 0;
-                        do
+                        var readingPosition = 0;
+                        for (var i = 0; i < 2; i++)
                         {
-                            if (v105 >= wareData.Length)
+                            if (readingPosition >= wareData.Length)
                                 break;
                             var v107 = 0;
                             while (true)
@@ -360,7 +359,7 @@ namespace DatEditor.Logic.Parser
 
                                 if (!string.IsNullOrEmpty(str))
                                 {
-                                    if (str == convertCString(wareData.AsSpan(v105).ToArray()))
+                                    if (str == convertCString(wareData.AsSpan(readingPosition).ToArray()))
                                         break;
                                 }
 
@@ -368,11 +367,10 @@ namespace DatEditor.Logic.Parser
                                     goto LABEL_154;
                             }
 
-                            prod3.m_WarenEntries[v121] = (byte)v107;
-                            LABEL_154:
-                            v105 += convertCString(wareData.AsSpan(v105).ToArray()).Length + 1;
-                            ++v121;
-                        } while (v121 < 2);
+                            prod3.m_WarenEntries[i] = (byte)v107;
+                        LABEL_154:
+                            readingPosition += convertCString(wareData.AsSpan(readingPosition).ToArray()).Length + 1;
+                        }
 
                         return;
                     }
@@ -431,8 +429,8 @@ namespace DatEditor.Logic.Parser
                 }
 
                 {
-                var size = getSize(data);
-                var prod3Data = _datReader.ReadBytes(size);
+                    var size = getSize(data);
+                    var prod3Data = _datReader.ReadBytes(size);
                 }
 
 
@@ -525,9 +523,9 @@ namespace DatEditor.Logic.Parser
                                         }
                                         // ...
                                     } while (v10 > 0);
-                                    
+
                                 }
-                                
+
 
                                 v6 = v33;
                             }
