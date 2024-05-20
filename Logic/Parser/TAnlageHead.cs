@@ -10,6 +10,7 @@ namespace DatEditor.Logic.Parser
     {
         public byte[] data = new byte[56];
 
+        public short m_IndexInArray;
         public byte something3;
         public byte something4;
         public byte something11;
@@ -47,8 +48,11 @@ namespace DatEditor.Logic.Parser
         public ushort m_ProdType;
         public byte m_InframinType;
 
+        public byte[] m_BauSampleData;
+
         public TAnlageHead()
         {
+            m_BauSampleData = new byte[32];
         }
 
         public byte sub_10002AB0(byte a1, byte a2)

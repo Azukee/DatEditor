@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DatEditor.Display;
 using DatEditor.Logic.Data;
 using DatEditor.Logic.Reader;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -13,6 +14,7 @@ namespace DatEditor.Logic.Parser
     {
         private int _bytesRead = 0;
         private TAnno _anno = new TAnno();
+        private TDisplay _display = new TDisplay();
 
         private readonly DatReader _datReader = new(File.OpenRead(filePath));
 
@@ -297,33 +299,56 @@ namespace DatEditor.Logic.Parser
                 return;
             }
 
-            if (stringMatches(data, "WALKMASK")) // TODO: next
+            if (stringMatches(data, "WALKMASK"))
             {
-
                 var size = getSize(data);
-                var prod3Data = _datReader.ReadBytes(size);
+                var walkmaskData = _datReader.ReadBytes(size);
+                if (3 * anlageHead.something4 <= 0)
+                    return;
+
+                for (var i = 0; i < 3 * anlageHead.something4;)
+                {
+                    prod3.m_WalkMask[i] = walkmaskData[i++];
+                }
+
+                anlage.Prod3 = prod3;
                 return;
             }
 
             if (stringMatches(data, "SHOTMASK"))
             {
-
                 var size = getSize(data);
-                var prod3Data = _datReader.ReadBytes(size);
+                var shotmaskData = _datReader.ReadBytes(size);
+                if (3 * anlageHead.something4 <= 0)
+                    return;
+
+                for (var i = 0; i < 3 * anlageHead.something4;)
+                {
+                    prod3.m_ShotMask[i] = shotmaskData[i++];
+                }
+
+                anlage.Prod3 = prod3;
                 return;
             }
 
             if (stringMatches(data, "OWNMASK"))
             {
-
                 var size = getSize(data);
-                var prod3Data = _datReader.ReadBytes(size);
+                var ownmaskData = _datReader.ReadBytes(size);
+                if (3 * anlageHead.something4 <= 0)
+                    return;
+
+                for (var i = 0; i < 3 * anlageHead.something4;)
+                {
+                    prod3.m_OwnMask[i] = ownmaskData[i++];
+                }
+
+                anlage.Prod3 = prod3;
                 return;
             }
 
             if (stringMatches(data, "ENTRANCE"))
             {
-
                 var size = getSize(data);
                 var prod3Data = _datReader.ReadBytes(size);
                 return;
@@ -331,7 +356,6 @@ namespace DatEditor.Logic.Parser
 
             if (stringMatches(data, "HIGHMAP"))
             {
-
                 var size = getSize(data);
                 var prod3Data = _datReader.ReadBytes(size);
                 return;
@@ -421,9 +445,20 @@ namespace DatEditor.Logic.Parser
                     }
                     else
                     {
-                        // BAUSAMPLE
-                    }
+                        var v118 = stringMatches(data, "BAUSAMPLE");
+                        if (v118)
+                        {
+                            var size = getSize(data);
+                            anlageHead.m_BauSampleData = _datReader.ReadBytes(size);
 
+                            anlage.Head = anlageHead;
+                        }
+                        else
+                        {
+                            var offset = getSize(data);
+                            _datReader.BaseStream.Seek(offset, SeekOrigin.Current);
+                        }
+                    }
                     return;
                 }
 
@@ -434,6 +469,33 @@ namespace DatEditor.Logic.Parser
 
 
                 return;
+            }
+        }
+
+        private void parseColor(ref TColor color, byte[] data)
+        {
+            var v5 = getSize(data);
+            while (v5 != 0)
+            {
+                var chunk = _datReader.ReadChunk();
+                var v7 = chunk.Length;
+                var v8 = v5 - v7;
+                var sizea = v8;
+                _anno.m_BytesRead += v7;
+                if (stringMatches(chunk, "ENTRY"))
+                {
+                    var size = getSize(chunk);
+                    var sizeb = sizea - size;
+                    _anno.m_BytesRead += size;
+
+                    var bytes = _datReader.ReadSmallChunk();
+                    var v10 = BitConverter.ToInt32(bytes, 0);
+                    var v11 = size - bytes.Length;
+                    if (v10 <= 0)
+                        v10 = 3;
+
+                    var colorTable = _display.sub_10003CD0(v10);
+                }
             }
         }
 
@@ -457,15 +519,15 @@ namespace DatEditor.Logic.Parser
 
                 if (stringMatches(chunk, "ANLAGEN"))
                 {
-                    var v6 = getSize(chunk);
-                    v7 = anlagenSize - v6;
-                    anlagenSize -= v6;
-                    if (v6 > 0)
+                    var BufferPlusC = getSize(chunk);
+                    v7 = anlagenSize - BufferPlusC;
+                    anlagenSize -= BufferPlusC;
+                    if (BufferPlusC > 0)
                     {
                         do
                         {
                             chunk = _datReader.ReadChunk();
-                            var v8 = v6 - chunk.Length;
+                            var v8 = BufferPlusC - chunk.Length;
                             var v33 = v8;
                             if (stringMatches(chunk, "ENTRY"))
                             {
@@ -484,7 +546,10 @@ namespace DatEditor.Logic.Parser
                                         ListIndex = _anno.Anlagen.Count
                                     };
                                     _anno.Anlagen.Add(anlage);
+                                    anlagenIndex++; //TODO: i dont know if this is correct, i dont think so
                                 }
+                                else
+                                    anlage = _anno.Anlagen[anlagenIndex];
 
                                 if (v10 > 0)
                                 {
@@ -526,18 +591,18 @@ namespace DatEditor.Logic.Parser
                                 }
 
 
-                                v6 = v33;
+                                BufferPlusC = v33;
                             }
                             else
                             {
                                 var offset = getSize(chunk);
                                 _datReader.BaseStream.Seek(offset, SeekOrigin.Current);
-                                v6 = v8 - offset;
+                                BufferPlusC = v8 - offset;
                             }
-                        } while (v6 > 0);
+                        } while (BufferPlusC > 0);
                         v7 = anlagenSize;
                     }
-
+                    
                     continue;
                 }
 
@@ -547,7 +612,9 @@ namespace DatEditor.Logic.Parser
                 {
                     var v20 = getSize(chunk);
                     _datReader.BaseStream.Seek(v20, SeekOrigin.Current);
-                    numberOfBytesRead = v20;
+                    TColor color = new TColor();
+                    parseColor(ref color, chunk);
+                    //numberOfBytesRead = v20;
                 }
                 else
                 {

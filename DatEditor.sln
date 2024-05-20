@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34616.47
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatEditor", "DatEditor.csproj", "{D782857B-26BB-4956-B4C0-D129929ABFFE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DatEditor", "DatEditor.csproj", "{D782857B-26BB-4956-B4C0-D129929ABFFE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatEditor.Display", "DatEditor.Display\DatEditor.Display.csproj", "{1E7FB539-680E-4F0C-A26C-E683A207A107}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{D782857B-26BB-4956-B4C0-D129929ABFFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D782857B-26BB-4956-B4C0-D129929ABFFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D782857B-26BB-4956-B4C0-D129929ABFFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E7FB539-680E-4F0C-A26C-E683A207A107}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E7FB539-680E-4F0C-A26C-E683A207A107}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E7FB539-680E-4F0C-A26C-E683A207A107}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E7FB539-680E-4F0C-A26C-E683A207A107}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

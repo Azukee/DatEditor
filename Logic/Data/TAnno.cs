@@ -84,6 +84,11 @@ namespace DatEditor.Logic.Data
             "INFRA_STUFE_5B", "INFRA_STUFE_5C", "INFRA_STUFE_5D", "INFRA_STUFE_5E", "INFRA_STUFE_5F", "INFRA_STUFE_TRIUMPH", "INFRA_STUFE_DENKMAL", "INFRA_STUFE_FORSCH"
         };
 
+
+        private List<IDisplayColors> m_Vector = new List<IDisplayColors>();
+
+        public int m_BytesRead = 0;
+
         public bool AnlageExists(int index)
         {
             return Anlagen.Count > index;
@@ -155,6 +160,25 @@ namespace DatEditor.Logic.Data
         }
 
         private string sub_10015640(int type) => type >= 0x20 ? "UNUSED" : _infraStufe[type];
+
+        private IDisplayColors sub_1000CF00(int index)
+        {
+            return m_Vector[index];
+        }
+
+        private IDisplayColors? sub_1000E340(int type, int index)
+        {
+            if (type <= 0xE00)
+            {
+                switch (type)
+                {
+                    case 0x500:
+                        return sub_1000CF00(index);
+                }
+            }
+
+            return null;
+        }
 
         public string sub_10009EC0(byte type, int index)
         {

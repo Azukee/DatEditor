@@ -43,10 +43,18 @@ namespace DatEditor.Logic.Parser
         public byte[] m_WarenEntries;
         public byte[] m_RohstoffEntries;
 
+        public uint[] m_WalkMask;
+        public uint[] m_ShotMask;
+        public uint[] m_OwnMask;
+
+
         public TAnlageProd3()
         {
             m_WarenEntries = new byte[2];
             m_RohstoffEntries = new byte[2];
+            m_WalkMask = new uint[3];
+            m_ShotMask = new uint[3];
+            m_OwnMask = new uint[3];
         }
     }
 }
