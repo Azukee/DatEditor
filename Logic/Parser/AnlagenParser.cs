@@ -397,9 +397,7 @@ namespace DatEditor.Logic.Parser
                                 }
 
                                 if (++v112 >= 0x8F)
-                                {
                                     goto LABEL_164;
-                                }
                             }
 
                             prod3.m_RohstoffEntries[i] = (byte)v112;
@@ -408,6 +406,7 @@ namespace DatEditor.Logic.Parser
                             LABEL_164:
                             readingPosition += convertCString(rohstoffData.AsSpan(readingPosition).ToArray()).Length + 1;
                         }
+
                         return;
                     }
                     else if (stringMatches(data, "VERSION2")) // doesnt seem to be used?
