@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DatEditor.Display;
+using DatEditor.Display.ColorTable;
 using DatEditor.Logic.Reader;
 using DatEditor.Game;
 using DatEditor.Game.Anlage;
@@ -13,7 +14,7 @@ namespace DatEditor.Logic.Parser
     internal class AnlagenParser(string filePath)
     {
         private int _bytesRead = 0;
-        private TAnno _anno = new TAnno();
+        private TAnnoDisplay _anno = new TAnnoDisplay();
         private TDisplay _display = new TDisplay();
 
         private readonly DatReader _datReader = new(File.OpenRead(filePath));
@@ -472,31 +473,108 @@ namespace DatEditor.Logic.Parser
             }
         }
 
-        private void parseColor(ref TColor color, byte[] data)
+        private int parseColor(ref TColor color, byte[] data)
         {
+            int bytesRead = 0;
             var v5 = getSize(data);
             while (v5 != 0)
             {
                 var chunk = _datReader.ReadChunk();
-                var v7 = chunk.Length;
-                var v8 = v5 - v7;
+                bytesRead = chunk.Length;
+
+                var v7 = bytesRead;
+                var v8 = v5 - bytesRead;
                 var sizea = v8;
                 _anno.m_BytesRead += v7;
                 if (stringMatches(chunk, "ENTRY"))
                 {
                     var size = getSize(chunk);
                     var sizeb = sizea - size;
+                    bytesRead += size;
                     _anno.m_BytesRead += size;
 
                     var bytes = _datReader.ReadSmallChunk();
+                    bytesRead = bytes.Length;
                     var v10 = BitConverter.ToInt32(bytes, 0);
-                    var v11 = size - bytes.Length;
+                    var v11 = size - bytesRead;
                     if (v10 <= 0)
                         v10 = 3;
 
                     var colorTable = _display.sub_10003CD0(v10);
+                    if (colorTable == null) // result < 0
+                        return unchecked((int)0xDEADBEEF);
+                    colorTable.sub_1002CFE0();
+
+                    var v14 = BitConverter.ToInt32(bytes, 4);
+                    var v15 = (_anno.DADSD - _anno.dword63F8) >> 2;
+                    var count = BitConverter.ToInt32(bytes, 4);
+                    var index = v15;
+
+                    if (v15 <= BitConverter.ToInt32(bytes, 4))
+                    {
+                        var v16 = count + BitConverter.ToInt32(bytes, 4) / 4;
+                        if (v16 < 10)
+                        {
+                            v16 = 10;
+                            if (v15 >= 10)
+                                v16 = v15 + 1;
+                        }
+
+                        _anno.m_SomeKindOfVector = new List<IDisplayColors>(v16);
+                        // init with nulls
+                        for(int i = 0; i < v16; i++)
+                            _anno.m_SomeKindOfVector.Add(new IDisplayColors());
+
+                        var v23 = 4 * ((_anno.DADSD - _anno.dword63F8) >> 2) - index;
+                        _anno.m_SomeKindOfVector[index] = new IDisplayColors();
+
+                        v14 = count;
+                    }
+
+                    var elem = _anno.m_SomeKindOfVector[v14];
+                    var v20 = count;
+                    var v24 = count;
+
+                    ++_anno.m_SomeCount;
+                    _anno.m_Count = v20;
+                    colorTable.sub_10002000((ushort)v24);
+                    while (v11 > 0)
+                    {
+                        var specialChunk = _datReader.ReadChunkSpecial();
+                        v11 -= specialChunk.Length;
+                        if (stringMatches(specialChunk, "BODY"))
+                        {
+                            var dat = _datReader.ReadChunkByLengthMask(specialChunk);
+                            v11 -= dat.Length;
+                            //(*(void(__thiscall * *)(int, char *, DWORD))(*(_DWORD*)tColorTableEffectsPtr + 0x5C))(
+                            //    tColorTableEffectsPtr,
+                            //    buf,
+                            //    NumberOfBytesRead >> 2);
+                        }
+                        else if (stringMatches(specialChunk, "NAME"))
+                        {
+                            var dat = _datReader.ReadChunkByLengthMask(specialChunk);
+                            v11 -= dat.Length;
+                            //(*(void(__thiscall * *)(int, int, char *))(*(_DWORD*)tColorTableEffectsPtr + 76))(
+                            //    tColorTableEffectsPtr,
+                            //    18,
+                            //    v37);
+                        }
+                    }
+
+                    v5 = sizeb;
+                }
+                else
+                {
+                    var offset = getSize(chunk);
+                    _datReader.BaseStream.Seek(offset, SeekOrigin.Current);
+
+                    v5 = v8 - bytesRead;
+                    _anno.m_BytesRead += bytesRead;
                 }
             }
+
+            return bytesRead;
         }
 
         public void Parse()
@@ -610,11 +688,9 @@ namespace DatEditor.Logic.Parser
 
                 if (stringMatches(chunk, "COLORS"))
                 {
-                    var v20 = getSize(chunk);
-                    _datReader.BaseStream.Seek(v20, SeekOrigin.Current);
                     TColor color = new TColor();
-                    parseColor(ref color, chunk);
-                    //numberOfBytesRead = v20;
+                    var x = parseColor(ref color, chunk);
+                    numberOfBytesRead += x;
                 }
                 else
                 {
