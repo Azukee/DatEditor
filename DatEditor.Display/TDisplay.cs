@@ -12,6 +12,8 @@ namespace DatEditor.Display
                 {
                     case 3:
                         return new TColorTableEffects();
+                    case 4:
+                        return new TColorTableEffectsMulti();
                 }
             }
 

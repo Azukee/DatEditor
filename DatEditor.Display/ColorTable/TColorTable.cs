@@ -14,5 +14,18 @@ namespace DatEditor.Display.ColorTable
         {
             dunno = unchecked((ushort)-1);
         }
+
+        public int sub_1002CFE0()
+        {
+            byte[] v3 = new byte[204];
+
+            return 0xFFFF;
+        }
+
+        public ushort sub_10002000(ushort a2)
+        {
+            dunno = a2;
+            return a2;
+        }
     }
 }
