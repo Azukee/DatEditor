@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DatEditor.Display\DatEditor.Display.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DatEditor.Display.ColorTable
 {
-    public class TColorTable
+    public class TColorTable : IDisplayColors
     {
         public ushort dunno;
 
@@ -26,6 +26,21 @@ namespace DatEditor.Display.ColorTable
         {
             dunno = a2;
             return a2;
+        }
+
+        public int sub_1002CEF0(int x)
+        {
+            return 8;
+        }
+
+        public override void LoadBody(byte[] data, int length)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override uint ReturnMagic()
+        {
+            return 0x500;
         }
     }
 }

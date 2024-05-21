@@ -1,4 +1,6 @@
-﻿namespace DatEditor.Game.Anlage
+﻿using DatEditor.Display;
+
+namespace DatEditor.Game.Anlage
 {
     public struct TAnlageProd3
     {
@@ -41,6 +43,8 @@
         public uint[] m_ShotMask;
         public uint[] m_OwnMask;
 
+        public IDisplayColors[] something270;
+        public int m_ColorIndex;
 
         public TAnlageProd3()
         {
@@ -49,6 +53,8 @@
             m_WalkMask = new uint[3];
             m_ShotMask = new uint[3];
             m_OwnMask = new uint[3];
+
+            something270 = new IDisplayColors[2];
         }
     }
 }

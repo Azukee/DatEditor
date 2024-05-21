@@ -523,10 +523,10 @@ namespace DatEditor.Logic.Parser
                         _anno.m_SomeKindOfVector = new List<IDisplayColors>(v16);
                         // init with nulls
                         for(int i = 0; i < v16; i++)
-                            _anno.m_SomeKindOfVector.Add(new IDisplayColors());
+                            _anno.m_SomeKindOfVector.Add(new TColorTable());
 
                         var v23 = 4 * ((_anno.DADSD - _anno.dword63F8) >> 2) - index;
-                        _anno.m_SomeKindOfVector[index] = new IDisplayColors();
+                        _anno.m_SomeKindOfVector[index] = new TColorTable();
 
                         v14 = count;
                     }
@@ -536,7 +536,7 @@ namespace DatEditor.Logic.Parser
                     var v24 = count;
 
                     ++_anno.m_SomeCount;
-                    _anno.m_Count = v20;
+                    _anno.m_ColorsBeginIndex = v20;
                     colorTable.sub_10002000((ushort)v24);
                     while (v11 > 0)
                     {
@@ -546,15 +546,13 @@ namespace DatEditor.Logic.Parser
                         {
                             var dat = _datReader.ReadChunkByLengthMask(specialChunk);
                             v11 -= dat.Length;
-                            //(*(void(__thiscall * *)(int, char *, DWORD))(*(_DWORD*)tColorTableEffectsPtr + 0x5C))(
-                            //    tColorTableEffectsPtr,
-                            //    buf,
-                            //    NumberOfBytesRead >> 2);
+                            colorTable.LoadBody(dat, dat.Length >> 2);
                         }
                         else if (stringMatches(specialChunk, "NAME"))
                         {
                             var dat = _datReader.ReadChunkByLengthMask(specialChunk);
                             v11 -= dat.Length;
+                            colorTable.sub_1002CEF0(18);
                             //(*(void(__thiscall * *)(int, int, char *))(*(_DWORD*)tColorTableEffectsPtr + 76))(
                             //    tColorTableEffectsPtr,
                             //    18,
@@ -648,9 +646,13 @@ namespace DatEditor.Logic.Parser
                                             {
                                                 do
                                                 {
-                                                    var elem = colorBuffer[v16];
-
-                                                    // logic
+                                                    var idx = colorBuffer[v16] + _anno.m_ColorsBeginIndex;
+                                                    if (idx > _anno.m_Colors.Count && _anno.m_Colors[idx] != null)
+                                                    {
+                                                        var displayColor = _anno.m_Colors[idx] as TColorTable;
+                                                        displayColor.sub_1002CFE0();
+                                                        anlage.sub_10005BF0(displayColor, v16);
+                                                    }
                                                     ++v16;
                                                 } while (v16 < v31);
 
