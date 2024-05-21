@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DatEditor.Game.Anlage;
 
-namespace DatEditor.Logic.Data
+namespace DatEditor.Game
 {
-    internal class TAnno
+    public class TAnno
     {
         public List<TAnlage> Anlagen { get; set; } = new();
 

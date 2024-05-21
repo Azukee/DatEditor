@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DatEditor.Display;
-using DatEditor.Logic.Data;
 using DatEditor.Logic.Reader;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using DatEditor.Game;
+using DatEditor.Game.Anlage;
 
 namespace DatEditor.Logic.Parser
 {

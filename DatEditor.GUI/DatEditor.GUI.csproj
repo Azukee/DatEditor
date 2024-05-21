@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DatEditor.Display\DatEditor.Display.csproj" />
+    <ProjectReference Include="..\DatEditor.Game\DatEditor.Game.csproj" />
   </ItemGroup>
 
 </Project>
