@@ -505,8 +505,8 @@ namespace DatEditor.Logic.Parser
                         return unchecked((int)0xDEADBEEF);
                     colorTable.sub_1002CFE0();
 
-                    var v14 = BitConverter.ToInt32(bytes, 4);
-                    var v15 = (_anno.DADSD - _anno.dword63F8) >> 2;
+                    var idx = BitConverter.ToInt32(bytes, 4);
+                    var v15 = (_anno.somethingHere - _anno.dword63F8) >> 2;
                     var count = BitConverter.ToInt32(bytes, 4);
                     var index = v15;
 
@@ -520,24 +520,20 @@ namespace DatEditor.Logic.Parser
                                 v16 = v15 + 1;
                         }
 
-                        _anno.m_SomeKindOfVector = new List<IDisplayColors>(v16);
-                        // init with nulls
-                        for(int i = 0; i < v16; i++)
-                            _anno.m_SomeKindOfVector.Add(new TColorTable());
+                        _anno.m_SomeKindOfVector = new IDisplayColors[v16];
 
-                        var v23 = 4 * ((_anno.DADSD - _anno.dword63F8) >> 2) - index;
-                        _anno.m_SomeKindOfVector[index] = new TColorTable();
-
-                        v14 = count;
+                        _anno.m_SomeKindOfVector[index] = colorTable;
+                        idx = count;
                     }
 
-                    var elem = _anno.m_SomeKindOfVector[v14];
+                    if (_anno.m_SomeKindOfVector[idx] == null)
+                        _anno.m_SomeKindOfVector[idx] = colorTable;
                     var v20 = count;
                     var v24 = count;
 
                     ++_anno.m_SomeCount;
-                    _anno.m_ColorsBeginIndex = v20;
-                    colorTable.sub_10002000((ushort)v24);
+                    _anno.m_DisplayColors[idx] = colorTable;
+                    colorTable.SetIndexInArray((ushort)v24);
                     while (v11 > 0)
                     {
                         var specialChunk = _datReader.ReadChunkSpecial();
@@ -647,9 +643,9 @@ namespace DatEditor.Logic.Parser
                                                 do
                                                 {
                                                     var idx = colorBuffer[v16] + _anno.m_ColorsBeginIndex;
-                                                    if (idx > _anno.m_Colors.Count && _anno.m_Colors[idx] != null)
+                                                    if (idx < _anno.m_DisplayColors.Length && _anno.m_DisplayColors[idx] != null)
                                                     {
-                                                        var displayColor = _anno.m_Colors[idx] as TColorTable;
+                                                        var displayColor = _anno.m_DisplayColors[idx] as TColorTable;
                                                         displayColor.sub_1002CFE0();
                                                         anlage.sub_10005BF0(displayColor, v16);
                                                     }
@@ -669,8 +665,7 @@ namespace DatEditor.Logic.Parser
                                     } while (v10 > 0);
 
                                 }
-
-
+                                //functions here
                                 BufferPlusC = v33;
                             }
                             else
