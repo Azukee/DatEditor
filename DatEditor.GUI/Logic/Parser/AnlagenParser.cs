@@ -448,7 +448,15 @@ namespace DatEditor.Logic.Parser
             }
         }
 
-        private int parseColor(ref TColor color, byte[] data)
+
+
+        public void parseRealAnlage(ref TAnlage anlage, byte[] data)
+        {
+            if (true)
+                parseAnlage(ref anlage, data);
+        }
+
+            private int parseColor(ref TColor color, byte[] data)
         {
             int bytesRead = 0;
             var v5 = getSize(data);
@@ -608,7 +616,7 @@ namespace DatEditor.Logic.Parser
                                         {
                                             var length = getSize(chunk);
                                             var colorBuffer = _datReader.ReadBytes(length);
-                                            var v16 = 0;
+                                            var idx = 0;
                                             v10 = v15 - colorBuffer.Length;
                                             var v30 = v10;
                                             var v31 = colorBuffer.Length >> 2;
@@ -617,22 +625,21 @@ namespace DatEditor.Logic.Parser
                                             {
                                                 do
                                                 {
-                                                    var idx = colorBuffer[v16] + _anno.m_ColorsBeginIndex; //TODO: i dont think theres an index addition in the original assembly
                                                     if (idx < _anno.m_DisplayColors.Length && _anno.m_DisplayColors[idx] != null)
                                                     {
                                                         var displayColor = _anno.m_DisplayColors[idx] as TColorTable;
                                                         displayColor.sub_1002CFE0();
-                                                        anlage.sub_10005BF0(displayColor, v16);
+                                                        anlage.sub_10005BF0(displayColor, idx);
                                                     }
-                                                    ++v16;
-                                                } while (v16 < v31);
+                                                    ++idx;
+                                                } while (idx < v31);
 
                                                 v10 = v30;
                                             }
                                         }
                                         else
                                         {
-                                            parseAnlage(ref anlage, chunk); // THIS IS INCORRECT check: sub_10005D10
+                                            parseRealAnlage(ref anlage, chunk);
                                             v10 = v15 - 0;
                                             _bytesRead += v10;
                                         }
