@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DatEditor.Logic.Parser;
 
-namespace DatEditor.Logic.Data
+namespace DatEditor.Game.Anlage
 {
-    internal class TAnlage
+    public class TAnlage
     {
         public TAnno Parent { get; set; }
         public int ListIndex { get; set; }
