@@ -83,7 +83,6 @@ namespace DatEditor.Logic.Parser
             {
                 var size = getSize(data);
                 var headData = _datReader.ReadBytes(size);
-                var v9 = BitConverter.ToUInt32(headData.AsSpan(0x14, 4));
                 anlageHead.something3 = headData[0];
                 anlageHead.something4 = headData[1];
                 anlageHead.something11 = headData[2];
@@ -93,10 +92,9 @@ namespace DatEditor.Logic.Parser
                 anlageHead.something17 = headData[0xA];
                 anlageHead.something18 = headData[0x12];
                 var v10 = headData[0x13];
-                var v11 = headData[0x13] == 0;
-                anlageHead.dataOrSomething = v9;
-                if (v11)
+                if (v10 == 0)
                     v10 = unchecked((byte)-2);
+                anlageHead.dataOrSomething = BitConverter.ToUInt32(headData.AsSpan(0x14, 4));
                 anlageHead.something15 = v10;
                 anlageHead.yeahyeah = BitConverter.ToUInt32(headData.AsSpan(0xC, 4));
                 anlageHead.somethingsomething = BitConverter.ToUInt32(headData.AsSpan(0x1C, 4));
@@ -105,41 +103,35 @@ namespace DatEditor.Logic.Parser
                 anlageHead.something14 = headData[0x19];
                 anlageHead.something9 = BitConverter.ToUInt16(headData.AsSpan(0x2C, 2));
 
-                ushort v12;
                 if (BitConverter.ToUInt16(headData.AsSpan(0x32, 2)) == 0xFFFF)
-                    v12 = 0;
+                    anlageHead.something10 = 0;
                 else
-                    v12 = BitConverter.ToUInt16(headData.AsSpan(0x32, 2));
+                    anlageHead.something10 = BitConverter.ToUInt16(headData.AsSpan(0x32, 2));
 
-                var v13 = headData[0x2F];
-                anlageHead.something10 = v12;
-                if (v13 > 0 || headData[0x30] > 0)
-                    anlageHead.something12 = anlageHead.sub_10002AB0(v13, headData[0x30]);
+                if (headData[0x2F] > 0 || headData[0x30] > 0)
+                    anlageHead.something12 = anlageHead.sub_10002AB0(headData[0x2F], headData[0x30]);
 
                 var v14 = (ushort)(headData[0x25] & 1 | (headData[0x2E] << 8));
                 anlageHead.gangang = BitConverter.ToUInt16(headData.AsSpan(0x08, 2));
-                var v15 = headData[0x05];
                 anlageHead.YEAH = v14;
                 v14 = headData[0xB];
-                anlageHead.ssomething = v15;
+                anlageHead.ssomething = headData[0x05];
                 anlageHead.ssomething2 = headData[0x03];
                 anlageHead.ssomething1 = headData[0x04];
                 anlageHead.ssomething3 = headData[0x06];
                 anlageHead.something19 = (byte)(v14 & 0x3F);
-                var v16 = BitConverter.ToUInt16(headData.AsSpan(0x1A, 2));
                 anlageHead.something20 = (byte)(v14 >> 6);
-                anlageHead.something21 = v16;
+                anlageHead.something21 = BitConverter.ToUInt16(headData.AsSpan(0x1A, 2));
                 anlageHead.something27 = BitConverter.ToUInt16(headData.AsSpan(0x26, 2));
                 anlageHead.something25 = BitConverter.ToUInt16(headData.AsSpan(0x28, 2));
                 anlageHead.something23 = BitConverter.ToUInt16(headData.AsSpan(0x2A, 2));
-                var v17 = headData[0x24];
                 if ((headData[0x24] & 1) != 0)
                     anlageHead.something75 |= 1;
-                if ((v17 & 2) != 0)
+                if ((headData[0x24] & 2) != 0)
                     anlageHead.something87 |= 1;
-                if ((v17 & 4) != 0)
+                if ((headData[0x24] & 4) != 0)
                     anlageHead.something99 |= 1;
-                if ((v17 & 8) != 0)
+                if ((headData[0x24] & 8) != 0)
                     anlageHead.something111 |= 1;
 
                 anlage.Head = anlageHead;
@@ -152,7 +144,7 @@ namespace DatEditor.Logic.Parser
                 var size = getSize(data);
                 var prod3Data = _datReader.ReadBytes(size);
                 var v18 = prod3Data[0x28];
-                var v120 = prod3Data[0x28];
+                var v120 = prod3Data[0x28]; // TODO: investigate if this is a dword in the assembly
 
                 var something123_1 = new byte[2 * prod3Data[0x28]];
                 Array.Copy(prod3Data, 2 * prod3Data[0x2A] + 0x32, something123_1, 0, 2 * prod3Data[0x28]);
@@ -192,22 +184,20 @@ namespace DatEditor.Logic.Parser
                 var v27 = (int)(BitConverter.ToSingle(prod3Data.AsSpan(0x08, 4)) * 128.0f);
                 prod3.something163 = v27;
                 prod3.something165 = (int)(v25 * 128.0f);
-                var xdwhatisthis = anlageHead.m_ProdType;
-                ushort v30 = 0;
-                if (xdwhatisthis < 0xE2 || xdwhatisthis > 0xE3)
+                var prodType = anlageHead.m_ProdType;
+                if (prodType < 0xE2 || prodType > 0xE3)
                 {
-                    v30 = 0;
+                    prod3.something143 = 0;
                 }
                 else
                 {
                     var something6 = anlageHead.something6;
                     if (something6 < 2)
-                        v30 = 0;
+                        prod3.something143 = 0;
                     else
-                        v30 = (ushort)((1000 * v27 / (something6 * (1 << anlageHead.something7))) << 7);
+                        prod3.something143 = (ushort)((1000 * v27 / (something6 * (1 << anlageHead.something7))) << 7);
                 }
 
-                prod3.something143 = v30;
                 prod3.something159 = (ushort)((256.0 / v26) + 0.5);
                 var v31 = BitConverter.ToSingle(prod3Data.AsSpan(0x20, 4));
                 prod3.something161 = (ushort)((256.0 / v25) + 0.5);
@@ -502,7 +492,7 @@ namespace DatEditor.Logic.Parser
 
                     var colorTable = _display.sub_10003CD0(v10);
                     if (colorTable == null) // result < 0
-                        return unchecked((int)0xDEADBEEF);
+                        return unchecked((int)0xDEADBEEF); // TODO: return error, so probably throw here
                     colorTable.sub_1002CFE0();
 
                     var idx = BitConverter.ToInt32(bytes, 4);
@@ -642,7 +632,7 @@ namespace DatEditor.Logic.Parser
                                             {
                                                 do
                                                 {
-                                                    var idx = colorBuffer[v16] + _anno.m_ColorsBeginIndex;
+                                                    var idx = colorBuffer[v16] + _anno.m_ColorsBeginIndex; //TODO: i dont think theres an index addition in the original assembly
                                                     if (idx < _anno.m_DisplayColors.Length && _anno.m_DisplayColors[idx] != null)
                                                     {
                                                         var displayColor = _anno.m_DisplayColors[idx] as TColorTable;
