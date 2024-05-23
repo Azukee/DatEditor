@@ -32,5 +32,19 @@ namespace DatEditor.Logic.Reader
         {
             return BitConverter.ToUInt16(buffer, offset);
         }
+
+        public static bool Matches(this byte[] buffer, string str)
+        {
+            if (buffer.Length < str.Length)
+                return false;
+
+            return !str.Where((t, i) => buffer[i] != t).Any();
+        }
+
+        public static string GetZeroTerminatedString(this byte[] buffer)
+        {
+            int length = Array.IndexOf(buffer, (byte)0);
+            return Encoding.UTF8.GetString(buffer, 0, length);
+        }
     }
 }
