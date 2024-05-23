@@ -24,8 +24,7 @@ namespace DatEditor.Display.ColorTable
 
             for (var i = 0; i < length; i++)
             {
-                var v5 = BitConverter.ToUInt32(data, 4 * i);
-                m_BodyInfoMaybe[i] = v5;
+                m_BodyInfoMaybe[i] = BitConverter.ToUInt32(data, 4 * i);
             }
         }
     }
