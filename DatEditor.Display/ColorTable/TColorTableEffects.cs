@@ -14,12 +14,5 @@ namespace DatEditor.Display.ColorTable
         {
             dunno2 = unchecked((byte)-1);
         }
-
-        public int sub_1002CFE0(int a2)
-        {
-            byte[] v3 = new byte[204];
-
-            return 0xFFFF;
-        }
     }
 }
