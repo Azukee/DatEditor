@@ -17,7 +17,7 @@ namespace DatEditor.Display
                 }
             }
 
-            return new TColorTable();
+            return null;
         }
     }
 }

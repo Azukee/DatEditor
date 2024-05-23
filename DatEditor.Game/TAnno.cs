@@ -1,4 +1,5 @@
-﻿using DatEditor.Game.Anlage;
+﻿using DatEditor.Display;
+using DatEditor.Game.Anlage;
 
 namespace DatEditor.Game
 {
