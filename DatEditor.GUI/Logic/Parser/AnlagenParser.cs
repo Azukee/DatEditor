@@ -657,7 +657,7 @@ namespace DatEditor.Logic.Parser
                                         }
                                         else
                                         {
-                                            parseAnlage(ref anlage, chunk);
+                                            parseAnlage(ref anlage, chunk); // THIS IS INCORRECT check: sub_10005D10
                                             v10 = v15 - 0;
                                             _bytesRead += v10;
                                         }
@@ -665,6 +665,15 @@ namespace DatEditor.Logic.Parser
                                     } while (v10 > 0);
 
                                 }
+
+                                //tinyChunk
+                                tinyChunk[4] = 0x00;
+                                tinyChunk[5] = 0x00;
+                                tinyChunk[6] = 0x00;
+                                tinyChunk[7] = 0x00;
+
+                                anlage.sub_10005460(0x35, tinyChunk); //TODO; reverse this some more
+
                                 //functions here
                                 BufferPlusC = v33;
                             }
