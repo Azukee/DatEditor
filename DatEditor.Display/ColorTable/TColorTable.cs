@@ -8,11 +8,11 @@ namespace DatEditor.Display.ColorTable
 {
     public class TColorTable : IDisplayColors
     {
-        public ushort dunno;
+        public ushort m_IndexInArray; //TODO: update name in database
 
         public TColorTable()
         {
-            dunno = unchecked((ushort)-1);
+            m_IndexInArray = unchecked((ushort)-1);
         }
 
         public int sub_1002CFE0()
@@ -22,9 +22,9 @@ namespace DatEditor.Display.ColorTable
             return 0xFFFF;
         }
 
-        public ushort sub_10002000(ushort a2)
+        public ushort SetIndexInArray(ushort a2) //TODO: sub_10002000 UPDATE name in database
         {
-            dunno = a2;
+            m_IndexInArray = a2;
             return a2;
         }
 

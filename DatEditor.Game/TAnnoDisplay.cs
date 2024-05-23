@@ -9,13 +9,13 @@ namespace DatEditor.Game
 {
     public class TAnnoDisplay : TAnno
     {
-        public int DADSD;
+        public int somethingHere;
         public int dword63F8;
 
-        public List<IDisplayColors> m_SomeKindOfVector = new List<IDisplayColors>();
+        public IDisplayColors[] m_SomeKindOfVector = new IDisplayColors[0x1000];
 
         public int m_ColorsBeginIndex;
-        public List<IDisplayColors> m_Colors = new List<IDisplayColors>();
+        public IDisplayColors[] m_DisplayColors = new IDisplayColors[0x1000];
 
 
         public int m_SomeCount;
