@@ -77,7 +77,5 @@ namespace DatEditor.Game.Anlage
 
             return 0;
         }
-
-
     }
 }

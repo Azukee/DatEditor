@@ -447,16 +447,14 @@ namespace DatEditor.Logic.Parser
                 return;
             }
         }
-
-
-
+      
         public void parseRealAnlage(ref TAnlage anlage, byte[] data)
         {
             if (true)
                 parseAnlage(ref anlage, data);
         }
 
-            private int parseColor(ref TColor color, byte[] data)
+        private int parseColor(ref TColor color, byte[] data)
         {
             int bytesRead = 0;
             var v5 = getSize(data);
@@ -486,6 +484,7 @@ namespace DatEditor.Logic.Parser
                     var colorTable = _display.sub_10003CD0(v10);
                     if (colorTable == null) // result < 0
                         return unchecked((int)0xDEADBEEF); // TODO: return error, so probably throw here
+                  
                     colorTable.sub_1002CFE0();
 
                     var idx = BitConverter.ToInt32(bytes, 4);
@@ -640,6 +639,7 @@ namespace DatEditor.Logic.Parser
                                         else
                                         {
                                             parseRealAnlage(ref anlage, chunk);
+
                                             v10 = v15 - 0;
                                             _bytesRead += v10;
                                         }
