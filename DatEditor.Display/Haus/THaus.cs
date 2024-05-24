@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace DatEditor.Display.Haus
 {
-    public class THaus
+    public class THaus : IMagicObject
     {
-        public List<int> m_BigIntegerVector;
+        public int[] m_BigIntegerVector;
 
         public THaus()
         {
-            m_BigIntegerVector = new List<int>();
+            m_BigIntegerVector = new int[4];
         }
 
         public virtual uint sub_100071E0(uint value)
@@ -24,6 +24,21 @@ namespace DatEditor.Display.Haus
         {
             m_BigIntegerVector[0] = value;
             return value;
+        }
+
+        public virtual uint offset10()
+        {
+            return 0x600;
+        }
+
+        public override uint GetMagic()
+        {
+            return offset10() & 0x7FFFFF00;
+        }
+
+        public virtual uint offset4c()
+        {
+
         }
     }
 }

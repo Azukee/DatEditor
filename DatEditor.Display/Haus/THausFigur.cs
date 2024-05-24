@@ -22,9 +22,14 @@ namespace DatEditor.Display.Haus
         {
             m_Short2 = 1000;
             m_Dword1 = 256;
-            base.m_Short2 = 263;
+            m_Short1 = 263;
             m_SomeBuffer = new byte[384];
             m_SomeBuffer[0x180] = 7;
+        }
+
+        public override uint offset10()
+        {
+            return 0x604;
         }
     }
 }

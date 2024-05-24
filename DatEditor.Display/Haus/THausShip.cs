@@ -16,5 +16,10 @@ namespace DatEditor.Display.Haus
             m_Dword2 = 1;
             m_Dword1 = 0;
         }
+
+        public override uint offset10()
+        {
+            return 0x607;
+        }
     }
 }
