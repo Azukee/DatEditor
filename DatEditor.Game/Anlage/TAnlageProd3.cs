@@ -39,22 +39,26 @@ namespace DatEditor.Game.Anlage
         public byte[] m_WarenEntries;
         public byte[] m_RohstoffEntries;
 
-        public uint[] m_WalkMask;
-        public uint[] m_ShotMask;
-        public uint[] m_OwnMask;
+        public byte[] m_WalkMask;
+        public byte[] m_ShotMask;
+        public byte[] m_OwnMask;
 
-        public IDisplayColors[] something270;
-        public int m_ColorIndex;
+        public IMagicObject[] something270;
+
+        public IMagicObject[] something201;
+
+        public int m_MagicObjectIndex;
 
         public TAnlageProd3()
         {
             m_WarenEntries = new byte[2];
             m_RohstoffEntries = new byte[2];
-            m_WalkMask = new uint[3];
-            m_ShotMask = new uint[3];
-            m_OwnMask = new uint[3];
+            m_WalkMask = new byte[96];
+            m_ShotMask = new byte[96];
+            m_OwnMask = new byte[96];
 
-            something270 = new IDisplayColors[2];
+            something270 = new IMagicObject[4];
+            something201 = new IMagicObject[16];
         }
     }
 }

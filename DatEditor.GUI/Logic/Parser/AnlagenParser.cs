@@ -21,7 +21,7 @@ namespace DatEditor.Logic.Parser
 
         private Int32 getSize(byte[] data)
         {
-            return BitConverter.ToInt32(data.AsSpan(0xC, 4));
+            return data.GetInt(0x0C);
         }
 
         private Int32 sub_100037E0(byte[] data, int a2)
@@ -83,7 +83,7 @@ namespace DatEditor.Logic.Parser
                 anlageHead.dataOrSomething = BitConverter.ToUInt32(headData.AsSpan(0x14, 4));
                 anlageHead.something15 = v10;
                 anlageHead.yeahyeah = BitConverter.ToUInt32(headData.AsSpan(0xC, 4));
-                anlageHead.somethingsomething = BitConverter.ToUInt32(headData.AsSpan(0x1C, 4));
+                anlageHead.somethingsomething = headData.GetUShort(0x1C);
                 anlageHead.yeayea = BitConverter.ToUInt32(headData.AsSpan(0x20, 4));
                 anlageHead.something16 = headData[0x31];
                 anlageHead.something14 = headData[0x19];
@@ -450,8 +450,46 @@ namespace DatEditor.Logic.Parser
       
         public void parseRealAnlage(ref TAnlage anlage, byte[] data)
         {
-            if (true)
+            if (!data.Matches("HAEUSER")) {
                 parseAnlage(ref anlage, data);
+                return;
+            }
+
+            var size = getSize(data);
+            if (size <= 0)
+                return;
+            byte[] chunk; 
+            while (true)
+            {
+                chunk = _datReader.ReadChunk();
+                size -= chunk.Length;
+                if (chunk.Matches("ENTRY"))
+                    break;
+                if (size <= 0)
+                    return;
+            }
+
+            var v7 = getSize(chunk);
+            var v23 = size - v7;
+            var buffer = _datReader.ReadChunk();
+            var v8 = v7 - buffer.Length;
+            var houseObject = _display.ConstructHouseObject(buffer.GetUShort(0x02));
+            var index = anlage.sub_10005BF0(houseObject, buffer.GetUShort(0x00));
+            houseObject.sub_10005220(index);
+            // watch out maybe this needs to be written in the array at anlage
+            if (v8 <= 0)
+            {
+
+                var x = buffer.GetUInt(0x08);
+                if (size <= 0)
+                    return;
+            }
+
+            while (true)
+            {
+                var v28 = _datReader.ReadChunk();
+                var v12= v8 - v28.Length;
+            }
         }
 
         private int parseColor(ref TColor color, byte[] data)

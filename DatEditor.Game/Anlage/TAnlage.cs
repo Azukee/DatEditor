@@ -21,14 +21,23 @@ namespace DatEditor.Game.Anlage
             Prod3 = new TAnlageProd3();
         }
 
-        public int sub_10005BF0(IDisplayColors color, int index)
+        public int sub_10005BF0(IMagicObject magicObject, int index)
         {
-            var v4 = color.ReturnMagic();
+            var v4 = magicObject.GetMagic();
             if (v4 == 0x500)
             {
                 var anlageProd3 = Prod3;
-                anlageProd3.something270[index + 1] = color;
-                anlageProd3.m_ColorIndex = index;
+                anlageProd3.something270[index + 1] = magicObject;
+                anlageProd3.m_MagicObjectIndex = index;
+
+                Prod3 = anlageProd3;
+
+                return index;
+            }
+            else if (v4 == 0x600)
+            {
+                var anlageProd3 = Prod3;
+                anlageProd3.something201[4 * index + 2] = magicObject;
 
                 Prod3 = anlageProd3;
 

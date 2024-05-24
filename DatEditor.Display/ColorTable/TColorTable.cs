@@ -38,7 +38,7 @@ namespace DatEditor.Display.ColorTable
             throw new NotImplementedException();
         }
 
-        public override uint ReturnMagic()
+        public override uint GetMagic()
         {
             return 0x500;
         }

@@ -16,7 +16,7 @@
         public uint dataOrSomething;
         public byte something15;
         public uint yeahyeah;
-        public uint somethingsomething;
+        public ushort somethingsomething;
         public uint yeayea;
         public byte something16;
         public byte something14;
