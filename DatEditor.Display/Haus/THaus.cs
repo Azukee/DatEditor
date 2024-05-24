@@ -36,9 +36,9 @@ namespace DatEditor.Display.Haus
             return offset10() & 0x7FFFFF00;
         }
 
-        public virtual uint offset4c()
+        public virtual void offset4c(int type, byte[] data)
         {
-
+            return;
         }
     }
 }

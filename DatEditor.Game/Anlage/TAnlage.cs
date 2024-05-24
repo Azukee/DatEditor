@@ -21,6 +21,8 @@ namespace DatEditor.Game.Anlage
             Prod3 = new TAnlageProd3();
         }
 
+        
+
         public int sub_10005BF0(IMagicObject magicObject, int index)
         {
             var v4 = magicObject.GetMagic();

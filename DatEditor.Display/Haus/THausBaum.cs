@@ -9,14 +9,15 @@ namespace DatEditor.Display.Haus
     public class THausBaum : THaus
     {
         public uint t_AnlageDisplayPtr;
-        public ushort m_Short1;
+        public byte m_Byte1;
+        public byte m_Byte2;
         public byte m_Byte3;
         public byte m_Byte4;
 
         public THausBaum()
         {
             t_AnlageDisplayPtr = 0;
-            m_Short1 = 1;
+            m_Byte1 = 1; // double check
         }
 
         public override uint sub_100071E0(uint value)

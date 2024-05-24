@@ -5,7 +5,7 @@ namespace DatEditor.Game
 {
     public class TAnno
     {
-        public List<TAnlage> Anlagen { get; set; } = new();
+        public List<TAnlageDisplay> Anlagen { get; set; } = new();
 
         // TODO: diese benamungen sind arsch
         private readonly string[] _wasserTyp = { "FLUSS", "MEER", "WASSERFALL" };

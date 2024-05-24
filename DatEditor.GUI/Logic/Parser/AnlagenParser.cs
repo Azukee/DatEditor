@@ -29,7 +29,7 @@ namespace DatEditor.Logic.Parser
             return BitConverter.ToInt32(data.AsSpan(a2 + 0x85, 4));
         }
 
-        private void parseAnlage(ref TAnlage anlage, byte[] data)
+        private void parseAnlage(ref TAnlageDisplay anlage, byte[] data)
         {
             var bytesRead = 0;
 
@@ -447,8 +447,13 @@ namespace DatEditor.Logic.Parser
                 return;
             }
         }
+
+        public int parseHouseBody()
+        {
+            return 0;
+        }
       
-        public void parseRealAnlage(ref TAnlage anlage, byte[] data)
+        public void parseRealAnlage(ref TAnlageDisplay anlage, byte[] data)
         {
             if (!data.Matches("HAEUSER")) {
                 parseAnlage(ref anlage, data);
@@ -479,16 +484,22 @@ namespace DatEditor.Logic.Parser
             // watch out maybe this needs to be written in the array at anlage
             if (v8 <= 0)
             {
-
                 var x = buffer.GetUInt(0x08);
+
+                anlage.sub_1000C0B0(0x17, buffer);
                 if (size <= 0)
-                    return;
+                    return; // this should jump back to the while true loop
             }
 
             while (true)
             {
                 var v28 = _datReader.ReadChunk();
                 var v12= v8 - v28.Length;
+
+                int read = parseHouseBody();
+                v8 = v12 - read;
+                if (v8 <= 0)
+                    return; // this should jump to the if v8 block
             }
         }
 
@@ -623,7 +634,7 @@ namespace DatEditor.Logic.Parser
                             var v33 = v8;
                             if (chunk.Matches("ENTRY"))
                             {
-                                TAnlage anlage = null;
+                                TAnlageDisplay anlage = null;
 
                                 var v9 = getSize(chunk);
                                 v33 -= v9;
@@ -632,7 +643,7 @@ namespace DatEditor.Logic.Parser
                                 if (!_anno.AnlageExists(anlagenIndex))
                                 {
                                     // construct anlage
-                                    anlage = new TAnlage
+                                    anlage = new TAnlageDisplay
                                     {
                                         Parent = _anno,
                                         ListIndex = _anno.Anlagen.Count
