@@ -454,14 +454,50 @@ namespace Muto1503.GUI.Logic.Parser
                 var chunk = _datReader.ReadBytes(size);
                 var v62 = new byte[162]; //this is defo not the real size LOL
                 var intermediate = chunk[8] & 0xF;
-                BitConverter.GetBytes(intermediate).CopyTo(v62, 4);
-                haus.offset4c(0x13F, v62);
-                intermediate = (chunk[8] >> 4) & 1;
-                BitConverter.GetBytes(intermediate).CopyTo(v62, 4);
-                haus.offset4c(0x143, v62);
+
+                bytesRead = chunk.Length;
+
+                //BitConverter.GetBytes(intermediate).CopyTo(v62, 4);
+                //haus.offset4c(0x13F, v62);
+                //intermediate = (chunk[8] >> 4) & 1;
+                //BitConverter.GetBytes(intermediate).CopyTo(v62, 4);
+                //haus.offset4c(0x143, v62);
+            }
+            else if (data.Matches("ANIM"))
+            {
+                var size = getSize(data);
+                var chunk = _datReader.ReadBytes(size);
+                bytesRead = chunk.Length;
+            }else if (data.Matches("SOUND"))
+            {
+
+                var size = getSize(data);
+                var chunk = _datReader.ReadBytes(size);
+                bytesRead = chunk.Length;
+            }else if (data.Matches("TEXTURES"))
+            {
+                var chunk = _datReader.ReadSmallChunk();
+                bytesRead = chunk.Length;
+            }else if (data.Matches("SHADOW"))
+            {
+
+                var size = getSize(data);
+                bytesRead += size;
+                var chunk = _datReader.ReadSmallChunk();
+            }else if (data.Matches("OUTLINE"))
+            {
+                var size = getSize(data);
+                bytesRead += size;
+                var chunk = _datReader.ReadSmallChunk();
+            }
+            else
+            {
+                var size = getSize(data);
+                bytesRead = size;
+                _datReader.BaseStream.Seek(size, SeekOrigin.Current);
             }
 
-            return 0;
+            return _bytesRead;
         }
       
         public void parseRealAnlage(ref TAnlageDisplay anlage, byte[] data)
