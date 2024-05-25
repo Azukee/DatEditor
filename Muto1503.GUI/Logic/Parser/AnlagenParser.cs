@@ -1,5 +1,6 @@
 ﻿using Muto1503.Display;
 using Muto1503.Display.ColorTable;
+using Muto1503.Display.Haus;
 using Muto1503.Game;
 using Muto1503.Game.Anlage;
 using Muto1503.GUI.Logic.Reader;
@@ -443,8 +444,23 @@ namespace Muto1503.GUI.Logic.Parser
             }
         }
 
-        public int parseHouseBody()
+        public int parseHouseBody(ref THaus haus, byte[] data)
         {
+            int bytesRead = 0;
+
+            if (data.Matches("BODY2"))
+            {
+                var size = getSize(data);
+                var chunk = _datReader.ReadBytes(size);
+                var v62 = new byte[162]; //this is defo not the real size LOL
+                var intermediate = chunk[8] & 0xF;
+                BitConverter.GetBytes(intermediate).CopyTo(v62, 4);
+                haus.offset4c(0x13F, v62);
+                intermediate = (chunk[8] >> 4) & 1;
+                BitConverter.GetBytes(intermediate).CopyTo(v62, 4);
+                haus.offset4c(0x143, v62);
+            }
+
             return 0;
         }
       
@@ -463,39 +479,51 @@ namespace Muto1503.GUI.Logic.Parser
             {
                 chunk = _datReader.ReadChunk();
                 size -= chunk.Length;
+                THaus houseObject = null;
                 if (chunk.Matches("ENTRY"))
-                    break;
+                {
+                    var v7 = getSize(chunk);
+                    var v23 = size - v7;
+                    var buffer = _datReader.ReadChunk();
+                    var v8 = v7 - buffer.Length;
+                    houseObject = _display.ConstructHouseObject(buffer.GetUShort(0x02));
+                    var index = anlage.sub_10005BF0(houseObject, buffer.GetUShort(0x00));
+                    houseObject.sub_10005220(index);
+                // watch out maybe this needs to be written in the array at anlage
+                LABEL_8:
+                    if (v8 <= 0)
+                    {
+                        byte[] v15 = new byte[16];
+                        v15[4] = 0;
+                        v15[5] = 0;
+                        v15[6] = 0;
+                        v15[7] = 0;
+                        buffer.CopyTo(v15, 0);
+                        BitConverter.GetBytes(buffer.GetFloat(8)).CopyTo(v15, 8);
+                        BitConverter.GetBytes(buffer.GetInt(4)).CopyTo(v15, 4);
+                        BitConverter.GetBytes(buffer.GetFloat(12)).CopyTo(v15, 12);
+
+                        anlage.sub_1000C0B0(0x17, v15);
+                        size = v23;
+                        goto LABEL_9;
+                    }
+                    while (true)
+                    {
+                        var v28 = _datReader.ReadChunk();
+                        var v12 = v8 - v28.Length;
+
+                        int read = parseHouseBody(ref houseObject, v28);
+                        v8 = v12 - read;
+                        if (v8 <= 0)
+                            goto LABEL_8;
+                    }
+                }
+                LABEL_9:
                 if (size <= 0)
                     return;
             }
 
-            var v7 = getSize(chunk);
-            var v23 = size - v7;
-            var buffer = _datReader.ReadChunk();
-            var v8 = v7 - buffer.Length;
-            var houseObject = _display.ConstructHouseObject(buffer.GetUShort(0x02));
-            var index = anlage.sub_10005BF0(houseObject, buffer.GetUShort(0x00));
-            houseObject.sub_10005220(index);
-            // watch out maybe this needs to be written in the array at anlage
-            if (v8 <= 0)
-            {
-                var x = buffer.GetUInt(0x08);
-
-                anlage.sub_1000C0B0(0x17, buffer);
-                if (size <= 0)
-                    return; // this should jump back to the while true loop
-            }
-
-            while (true)
-            {
-                var v28 = _datReader.ReadChunk();
-                var v12= v8 - v28.Length;
-
-                int read = parseHouseBody();
-                v8 = v12 - read;
-                if (v8 <= 0)
-                    return; // this should jump to the if v8 block
-            }
+            
         }
 
         private int parseColor(ref TColor color, byte[] data)
