@@ -34,9 +34,6 @@
     <Filter Include="Dependencies">
       <UniqueIdentifier>{791422a1-7bbf-4170-b56b-7cb7b12e0f01}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Dependencies\sigmatch">
-      <UniqueIdentifier>{3d8eb8e8-cbe5-49d7-b30d-6c940cd41260}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Logic">
       <UniqueIdentifier>{8c6d4e29-d080-41ef-9278-f7cb0ef80f26}</UniqueIdentifier>
     </Filter>
@@ -54,9 +51,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Dependencies\sigmatch\sigmatch.hpp">
-      <Filter>Dependencies\sigmatch</Filter>
-    </ClInclude>
     <ClInclude Include="Logic\FunctionManager.h">
       <Filter>Logic</Filter>
     </ClInclude>

@@ -9,5 +9,5 @@ Logger::Logger(SingletonLock)
 
 void Logger::Log(const std::string& text) const
 {
-	std::cout << "[!] " << text << "\n";
+	std::cout << "[!] " << text.c_str() << "\n";
 }

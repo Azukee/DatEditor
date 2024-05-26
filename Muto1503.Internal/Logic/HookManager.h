@@ -7,7 +7,7 @@ class HookManager : public Singleton<HookManager>
 	typedef BOOL(__thiscall *fnParseAnlageReal)(uintptr_t, const char*, HANDLE, uintptr_t, DWORD*);
 	fnParseAnlageReal m_ParseAnlageOriginal;
 
-	static BOOL __thiscall parseAnlageRealHook(uintptr_t thisPointer, const char* buffer, HANDLE hFile, uintptr_t annoDisplayVtbl, DWORD* numberOfBytesRead);
+	static BOOL parseAnlageRealHook(uintptr_t thisPointer, const char* buffer, HANDLE hFile, uintptr_t annoDisplayVtbl, DWORD* numberOfBytesRead);
 public:
 	HookManager(SingletonLock);
 

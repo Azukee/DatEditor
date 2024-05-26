@@ -1,3 +1,5 @@
+typedef struct IUnknown IUnknown;
+
 #include <Windows.h>
 #include "Logic/FunctionManager.h"
 #include "Logic/HookManager.h"

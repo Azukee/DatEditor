@@ -8,9 +8,7 @@ class Singleton
 {
 public:
 	static T& Get() {
-		std::unique_lock lock(initMutex);
 		static const std::unique_ptr<T> instance{ new T{ SingletonLock{ } } };
-		lock.unlock();
 
 		return *instance;
 	}
@@ -23,5 +21,5 @@ protected:
 	Singleton() {}
 
 private:
-	static inline std::mutex initMutex;
+	static std::mutex initMutex;
 };

@@ -1,7 +1,5 @@
 #include "AnlagenManager.h"
 
-#include <format>
-
 #include "../Utilities/Logger.h"
 
 AnlagenManager::AnlagenManager(SingletonLock)
@@ -11,7 +9,7 @@ AnlagenManager::AnlagenManager(SingletonLock)
 
 void AnlagenManager::AddAnlage(uintptr_t anlagenPointer)
 {
-	if (std::ranges::find(m_Anlagen, anlagenPointer) == m_Anlagen.end())
+	if (std::find(m_Anlagen.begin(), m_Anlagen.end(), anlagenPointer) == m_Anlagen.end())
 	{
 		m_Anlagen.push_back(anlagenPointer);
 	}

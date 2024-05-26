@@ -14,9 +14,6 @@ HookManager::HookManager(SingletonLock)
 BOOL HookManager::parseAnlageRealHook(uintptr_t thisPointer, const char* buffer, HANDLE hFile,
                                       uintptr_t annoDisplayVtbl, DWORD* numberOfBytesRead)
 {
-    auto x = _ReturnAddress();
-    Logger::Get().Log(std::to_string(reinterpret_cast<uintptr_t>(x)));
-
 	const auto& instance = Get();
     auto result = instance.m_ParseAnlageOriginal(thisPointer, buffer, hFile, annoDisplayVtbl, numberOfBytesRead);
 
