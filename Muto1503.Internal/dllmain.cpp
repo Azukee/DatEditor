@@ -1,5 +1,4 @@
-typedef struct IUnknown IUnknown;
-
+#include <iostream>
 #include <Windows.h>
 #include "Logic/FunctionManager.h"
 #include "Logic/HookManager.h"
@@ -13,11 +12,12 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
         FILE* dummy;
         freopen_s(&dummy, "conout$", "w", stdout);
         freopen_s(&dummy, "conout$", "w", stderr);
+        std::cout << "[x] Hello from Muto1503.Internal!\n";
 
-        auto& functionManager = FunctionManager::Get();
+        auto functionManager = FunctionManager();
         functionManager.Initialize();
 
-        auto& hookManager = HookManager::Get();
+        auto hookManager = HookManager();
         hookManager.Initialize();
         break;
     }

@@ -1,7 +1,6 @@
 #pragma once
-#include <Singleton/Singleton.h>
-
-class FunctionManager : public Singleton<FunctionManager>
+#include <cstdint>
+class FunctionManager
 {
 private:
 	const uint32_t NO_RESULT = 0xBEDEEFAD; //0xDEADBEEF but scrambled
@@ -10,9 +9,12 @@ private:
 
 	uintptr_t findParseAnlageReal();
 public:
-	FunctionManager(SingletonLock);
+
+	FunctionManager();
 
 	void Initialize();
 
 	uintptr_t GetParseAnlageRealPointer();
 };
+
+static FunctionManager* g_FunctionManagerInstance;
