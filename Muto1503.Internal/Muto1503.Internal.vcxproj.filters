@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="Logic\FunctionManager.cpp">
+      <Filter>Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\MinHook\buffer.c">
+      <Filter>Dependencies\MinHook</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\MinHook\hook.c">
+      <Filter>Dependencies\MinHook</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\MinHook\trampoline.c">
+      <Filter>Dependencies\MinHook</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\MinHook\hde\hde32.c">
+      <Filter>Dependencies\MinHook\hde</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\MinHook\hde\hde64.c">
+      <Filter>Dependencies\MinHook\hde</Filter>
+    </ClCompile>
+    <ClCompile Include="Logic\HookManager.cpp">
+      <Filter>Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Utilities\Logger.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Logic\AnlagenManager.cpp">
+      <Filter>Logic</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Dependencies">
+      <UniqueIdentifier>{791422a1-7bbf-4170-b56b-7cb7b12e0f01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dependencies\sigmatch">
+      <UniqueIdentifier>{3d8eb8e8-cbe5-49d7-b30d-6c940cd41260}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Logic">
+      <UniqueIdentifier>{8c6d4e29-d080-41ef-9278-f7cb0ef80f26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dependencies\MinHook">
+      <UniqueIdentifier>{950e9127-eb74-4eaf-9a2f-3148c7b1f702}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dependencies\MinHook\hde">
+      <UniqueIdentifier>{974a2290-50ea-4115-aaf2-76f2e89fab3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dependencies\Singleton">
+      <UniqueIdentifier>{913eed40-c388-49ff-a3e6-94f46e35c350}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities">
+      <UniqueIdentifier>{98f8fb81-2898-4700-b940-94fcdf17f09b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Dependencies\sigmatch\sigmatch.hpp">
+      <Filter>Dependencies\sigmatch</Filter>
+    </ClInclude>
+    <ClInclude Include="Logic\FunctionManager.h">
+      <Filter>Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\MinHook\buffer.h">
+      <Filter>Dependencies\MinHook</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\MinHook\trampoline.h">
+      <Filter>Dependencies\MinHook</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\MinHook\MinHook.h">
+      <Filter>Dependencies\MinHook</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\MinHook\hde\hde64.h">
+      <Filter>Dependencies\MinHook\hde</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\MinHook\hde\pstdint.h">
+      <Filter>Dependencies\MinHook\hde</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\MinHook\hde\table32.h">
+      <Filter>Dependencies\MinHook\hde</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\MinHook\hde\table64.h">
+      <Filter>Dependencies\MinHook\hde</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\MinHook\hde\hde32.h">
+      <Filter>Dependencies\MinHook\hde</Filter>
+    </ClInclude>
+    <ClInclude Include="Logic\HookManager.h">
+      <Filter>Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Overwatch-Hax\Overwatch-Internal\Dependencies\Singleton\Singleton.h">
+      <Filter>Dependencies\Singleton</Filter>
+    </ClInclude>
+    <ClInclude Include="Utilities\Logger.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Logic\AnlagenManager.h">
+      <Filter>Logic</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
