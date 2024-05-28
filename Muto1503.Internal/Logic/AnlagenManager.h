@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include <vector>
 
 class AnlagenManager
@@ -10,5 +11,3 @@ public:
 
 	void AddAnlage(uintptr_t anlagenPointer);
 };
-
-static AnlagenManager* g_AnlagenManagerInstance;

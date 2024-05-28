@@ -90,5 +90,6 @@
     <ClInclude Include="Logic\AnlagenManager.h">
       <Filter>Logic</Filter>
     </ClInclude>
+    <ClInclude Include="Globals.h" />
   </ItemGroup>
 </Project>

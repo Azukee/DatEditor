@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include <MinHook/MinHook.h>
 
 class HookManager
@@ -13,5 +14,3 @@ public:
 
 	void Initialize();
 };
-
-static HookManager* g_HookManagerInstance;

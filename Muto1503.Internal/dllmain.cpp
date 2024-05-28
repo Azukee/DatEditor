@@ -1,7 +1,7 @@
 #include <iostream>
 #include <Windows.h>
-#include "Logic/FunctionManager.h"
-#include "Logic/HookManager.h"
+
+#include "Globals.h"
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved )
 {
@@ -14,11 +14,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
         freopen_s(&dummy, "conout$", "w", stderr);
         std::cout << "[x] Hello from Muto1503.Internal!\n";
 
-        auto functionManager = FunctionManager();
-        functionManager.Initialize();
-
-        auto hookManager = HookManager();
-        hookManager.Initialize();
+        g_HookManager->Initialize();
         break;
     }
     return TRUE;

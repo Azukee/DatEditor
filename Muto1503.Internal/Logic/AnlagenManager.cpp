@@ -7,7 +7,6 @@
 AnlagenManager::AnlagenManager()
 {
 	m_Anlagen = std::vector<uintptr_t>();
-	g_AnlagenManagerInstance = this;
 }
 
 void AnlagenManager::AddAnlage(uintptr_t anlagenPointer)
