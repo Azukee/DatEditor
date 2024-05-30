@@ -5,15 +5,6 @@
     <ClCompile Include="Logic\FunctionManager.cpp">
       <Filter>Logic</Filter>
     </ClCompile>
-    <ClCompile Include="Dependencies\MinHook\buffer.c">
-      <Filter>Dependencies\MinHook</Filter>
-    </ClCompile>
-    <ClCompile Include="Dependencies\MinHook\hook.c">
-      <Filter>Dependencies\MinHook</Filter>
-    </ClCompile>
-    <ClCompile Include="Dependencies\MinHook\trampoline.c">
-      <Filter>Dependencies\MinHook</Filter>
-    </ClCompile>
     <ClCompile Include="Dependencies\MinHook\hde\hde32.c">
       <Filter>Dependencies\MinHook\hde</Filter>
     </ClCompile>
@@ -23,11 +14,17 @@
     <ClCompile Include="Logic\HookManager.cpp">
       <Filter>Logic</Filter>
     </ClCompile>
-    <ClCompile Include="Utilities\Logger.cpp">
-      <Filter>Utilities</Filter>
-    </ClCompile>
     <ClCompile Include="Logic\AnlagenManager.cpp">
       <Filter>Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\MinHook\buffer.cpp">
+      <Filter>Dependencies\MinHook</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\MinHook\hook.cpp">
+      <Filter>Dependencies\MinHook</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\MinHook\trampoline.cpp">
+      <Filter>Dependencies\MinHook</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -42,12 +39,6 @@
     </Filter>
     <Filter Include="Dependencies\MinHook\hde">
       <UniqueIdentifier>{974a2290-50ea-4115-aaf2-76f2e89fab3c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Dependencies\Singleton">
-      <UniqueIdentifier>{913eed40-c388-49ff-a3e6-94f46e35c350}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Utilities">
-      <UniqueIdentifier>{98f8fb81-2898-4700-b940-94fcdf17f09b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -80,12 +71,6 @@
     </ClInclude>
     <ClInclude Include="Logic\HookManager.h">
       <Filter>Logic</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Overwatch-Hax\Overwatch-Internal\Dependencies\Singleton\Singleton.h">
-      <Filter>Dependencies\Singleton</Filter>
-    </ClInclude>
-    <ClInclude Include="Utilities\Logger.h">
-      <Filter>Utilities</Filter>
     </ClInclude>
     <ClInclude Include="Logic\AnlagenManager.h">
       <Filter>Logic</Filter>

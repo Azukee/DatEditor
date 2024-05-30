@@ -4,5 +4,5 @@
 #include "Logic/HookManager.h"
 
 static FunctionManager* g_FunctionManager = new FunctionManager();
-static HookManager* g_HookManager = new HookManager();
+//static HookManager* g_HookManager = new HookManager();
 static AnlagenManager* g_AnlagenManager = new AnlagenManager();

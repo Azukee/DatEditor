@@ -14,7 +14,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
         freopen_s(&dummy, "conout$", "w", stderr);
         std::cout << "[x] Hello from Muto1503.Internal!\n";
 
-        g_HookManager->Initialize();
+        HookManager::Initialize();
         break;
     }
     return TRUE;

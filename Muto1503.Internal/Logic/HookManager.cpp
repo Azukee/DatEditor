@@ -6,28 +6,27 @@
 #include "AnlagenManager.h"
 #include "FunctionManager.h"
 #include "../Globals.h"
-#include "../Utilities/Logger.h"
 
-HookManager::HookManager() {
+void* HookManager::m_ParseAnlageOriginal;
+HookManager::HookManager()
+{
+	HookManager::m_ParseAnlageOriginal = nullptr;
 }
 
-BOOL HookManager::parseAnlageRealHook(uintptr_t thisPointer, const char* buffer, HANDLE hFile,
-    uintptr_t annoDisplayVtbl, DWORD* numberOfBytesRead) {
-
-    std::cout << "hook\n";
-	BOOL result = g_HookManager->m_ParseAnlageOriginal(thisPointer, buffer, hFile, annoDisplayVtbl,
-	                                                              numberOfBytesRead);
-
-    g_AnlagenManager->AddAnlage(thisPointer);
+DWORD __thiscall HookManager::parseAnlageRealHook(void* thisPointer, uint8_t* buffer, HANDLE hFile, DWORD* annoDisplayVtbl, LPDWORD numberOfBytesRead)
+{
+	DWORD result = reinterpret_cast<fnParseAnlageReal>(HookManager::m_ParseAnlageOriginal)(thisPointer, buffer, hFile, annoDisplayVtbl, numberOfBytesRead);
+	
+    g_AnlagenManager->AddAnlage(reinterpret_cast<uintptr_t>(thisPointer));
 
     return result;
 }
 
-void HookManager::Initialize() {
+void HookManager::Initialize()
+{
     MH_Initialize();
-    const auto ptr = g_FunctionManager->GetParseAnlageReal();
-    MH_CreateHook(reinterpret_cast<LPVOID>(ptr), &parseAnlageRealHook,
-        reinterpret_cast<LPVOID*>(&m_ParseAnlageOriginal));
+
+    MH_CreateHook(reinterpret_cast<LPVOID>(g_FunctionManager->GetParseAnlageReal()), &parseAnlageRealHook, reinterpret_cast<LPVOID*>(&m_ParseAnlageOriginal));
 
     MH_EnableHook(MH_ALL_HOOKS);
 }
